@@ -56,6 +56,8 @@ i=0
 
 		awk 'END {print NR}' ClientUp$i-.csv>TotalClientUpPacket$i-.csv 
 		awk 'END {print NR}' ClientDown$i-.csv>TotalClientDownPacket$i-.csv 
+		echo `cat TotalClientUpPacket$i-.csv`
+		echo `cat TotalClientDownPacket$i-.csv`
 
 ## Average packet per second transmited
 
@@ -65,65 +67,18 @@ i=0
 ## Average packet size Upload and Download 
 
 		awk '{sum+=$7}  END { print "Average = ",sum/NR} {print Average}' ClientUp$i-.csv>AvrgUpSize$i-.csv 
+		sed -i '/^$/d' AvrgUpSize$i-.csv
 		awk '{sum+=$7}  END { print "Average = ",sum/NR} {print Average}' ClientDown$i-.csv>AvrgDownSize$i-.csv 
+		sed -i '/^$/d' AvrgDownSize$i-.csv
+
+## Upload Bandwidth Calculation 
+		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1  $4)}'> BandwdthUp$i-.csv
+
+
+## Download Bandwidth Calculation 
+		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1  $4)}'> BandwdthDown$i-.csv
+		
 		i=$(expr $i + 1)
 		
 	done
  
-#		echo " Total number of Packet Capture:" `cat TotalPacket.csv`
-#
-#		sed -n "/$server/p" CapFileTestSrc.csv > CapServerPackets.csv
-#		awk 'END {print NR}' CapServerPackets.csv>TotalServer.csv
-#		echo " Total Server Packets on Client:" `cat TotalServer.csv`
-#
-#		sed -n "/$ip1/p" CapFileTestSrc.csv > CapClientPackets.csv
-#		awk 'END {print NR}' CapClientPackets.csv>TotalClient.csv
-#		echo " Total Download Packet by Client:" `cat TotalClient.csv`
-#	}
-#
-#elif	[ $num -eq 2 ]
-#then 
-#	{
-#		awk 'END {print NR}' CapFileTestSrc.csv>TotalPacket.csv 
-#		echo " Total number of Packet Capture:" `cat TotalPacket.csv`
-#
-#		sed -n "/$server/p" CapFileTestSrc.csv > CapServerPackets.csv
-#		awk 'END {print NR}' CapServerPackets.csv>TotalServerPackets.csv
-#		echo " Total Server  Packet on Clients:" `cat TotalServerPackets.csv`
-#
-#		sed -n "/$ip1/p" CapFileTestSrc.csv > CapPackets$ip1-.csv
-#		awk 'END {print NR}' CapPackets$ip1-.csv>$ip1-packets.csv
-#		echo " Total  Packet by $ip1:" `cat $ip1-packets.csv`
-#
-#		sed -n "/$ip2/p" CapFileTestSrc.csv > CapPackets$ip2-.csv
-#		awk 'END {print NR}' CapPackets$ip2-.csv>$ip2-packets.csv
-#		echo " Total  Packet by $ip2:" `cat $ip2-packets.csv`
-#	}
-#
-#
-#elif	[ $num -eq 3 ]
-#then	
-#	{
-#	
-#		awk 'END {print NR}' CapFileTestSrc.csv>TotalPacket.csv 
-#		echo " Total number of Packet Capture:" `cat TotalPacket.csv`
-#
-#		sed -n "/$server/p" CapFileTestSrc.csv > CapServerPackets.csv
-#		awk 'END {print NR}' CapServerPackets.csv>TotalServerPackets.csv
-#		echo " Total Server  Packet on Clients:" `cat TotalServerPackets.csv`
-#
-#		sed -n "/$ip1/p" CapFileTestSrc.csv > CapPackets$ip1-.csv
-#		awk 'END {print NR}' CapPackets$ip1-.csv>$ip1-packets.csv
-#		echo " Total  Packet by $ip1:" `cat $ip1-packets.csv`
-#
-#		sed -n "/$ip2/p" CapFileTestSrc.csv > CapPackets$ip2-.csv
-#		awk 'END {print NR}' CapPackets$ip2-.csv>$ip2-packets.csv
-#		echo " Total  Packet by $ip2:" `cat $ip2-packets.csv`
-#	
-#	
-#		sed -n "/$ip3/p" CapFileTestSrc.csv > CapPackets$ip3-.csv
-#		awk 'END {print NR}' CapPackets$ip3-.csv>$ip3-packets.csv
-#		echo " Total  Packet by $ip3:" `cat $ip3-packets.csv`
-#	
-#	}
-#fi	
