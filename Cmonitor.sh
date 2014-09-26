@@ -66,19 +66,24 @@ i=0
 
 ## Average packet size Upload and Download 
 
-		awk '{sum+=$7}  END { print "Average = ",sum/NR} {print Average}' ClientUp$i-.csv>AvrgUpSize$i-.csv 
+		awk '{sum+=$7}  END { print "" sum/NR} ' ClientUp$i-.csv>AvrgUpSize$i-.csv 
 		sed -i '/^$/d' AvrgUpSize$i-.csv
-		awk '{sum+=$7}  END { print "Average = ",sum/NR} {print Average}' ClientDown$i-.csv>AvrgDownSize$i-.csv 
+		awk '{sum+=$7}  END { print "" sum/NR} ' ClientDown$i-.csv>AvrgDownSize$i-.csv 
 		sed -i '/^$/d' AvrgDownSize$i-.csv
 
 ## Upload Bandwidth Calculation 
-		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1  $4)}'> BandwdthUp$i-.csv
+		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1 * $1)}'> BandwdthUp$i-.csv
+
+		paste -d ',' AvrgUpPacket$i-.csv AvrgUpSize$i-.csv TotalClientUpPacket$i-.csv BandwdthUp$i-.csv>CaptureUp$i-Data.csv
 
 
 ## Download Bandwidth Calculation 
-		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1  $4)}'> BandwdthDown$i-.csv
+		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $1)}'> BandwdthDown$i-.csv
+
+		paste -d ',' AvrgDownPacket$i-.csv AvrgDownSize$i-.csv TotalClientDownPacket$i-.csv BandwdthDown$i-.csv>CaptureDown$i-Data.csv
 		
 		i=$(expr $i + 1)
 		
 	done
  
+rm -rf Avrg* Total*
