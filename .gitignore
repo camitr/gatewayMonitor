@@ -1,0 +1,17 @@
+.analysis-Gateway.rst.swp
+1.sh
+1.txt
+2.sh
+CapFileTestSrc.csv
+NewScript.sh
+PacketCap.pcap
+Tests/
+analysis-Gateway.pdf
+analysis-Gateway.rst
+back/
+clean.sh
+ipPara.sh
+ips.txt
+write.sh
+
+
