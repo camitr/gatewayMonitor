@@ -1,7 +1,24 @@
 #!/bin/bash
 
+##  Tests directory to create file related to that test
 cd Tests
+## Server IP
+
 server=10.129.200.200
+
+## To enter IP in file which is readed by tshark to conduct the monitoring
+
+echo " Enter number of machine to conduct the test"
+read n
+
+for ((i=0; i<n; i++))
+do
+	read -p "Enter IP " ip
+	echo "$ip" >> 1.txt
+			
+done
+
+## Array to genrate the IP string which is pass to the tshark 
 
  iptxt='1.txt'
  i=0
@@ -9,9 +26,6 @@ server=10.129.200.200
  ors='or '
 
 
-#function ips(){
-
-#echo ${ip[1]}
 
 
 
@@ -29,7 +43,7 @@ server=10.129.200.200
 	para=$(echo ${ips[@]} | cut -c -$wordcountless2)
 	echo $para
 	#return 
-#}
+
 
 echo "Duration of Test in Seconds"
 read dur
@@ -87,3 +101,6 @@ i=0
 	done
  
 rm -rf Avrg* Total*
+cd ..
+
+>1.txt
