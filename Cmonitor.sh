@@ -94,13 +94,27 @@ i=0
 ## Download Bandwidth Calculation 
 		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $1)}'> BandwdthDown$i-.csv
 
-		paste -d ',' AvrgDownPacket$i-.csv AvrgDownSize$i-.csv TotalClientDownPacket$i-.csv BandwdthDown$i-.csv>CaptureDown$i-Data.csv
-		
+
+		echo ${ip[i]} > ip$i-.csv
+		paste -d ','  AvrgDownPacket$i-.csv AvrgDownSize$i-.csv TotalClientDownPacket$i-.csv BandwdthDown$i-.csv>CaptureDown$i-Data.csv
+
+## csv contain aggregated data 		
+
+		paste -d ',' ip$i-.csv CaptureUp$i-Data.csv CaptureDown$i-Data.csv > final.csv
+
+date=$(date +"%y-%m-%d %H:%M")
+
+## pushing in database 
+while IFS=, read -ra arr;do
+
+	 echo "INSERT INTO results (date,ip,duration,avgPup,avgPSup,totalPup,bandwdthup,avgPdw,avgPSdw,totalPdw,bandwdthdw) VALUES ('$date','${arr[0]}','$dur','${arr[1]}','${arr[2]}','${arr[3]}','${arr[4]}','${arr[5]}','${arr[6]}','${arr[7]}','${arr[8]}');"
+ done<final.csv | mysql -uroot -p123 cmonitor
 		i=$(expr $i + 1)
+		
 		
 	done
  
-rm -rf Avrg* Total*
+rm -rf Avrg* Total* 
 cd ..
 
 >1.txt
