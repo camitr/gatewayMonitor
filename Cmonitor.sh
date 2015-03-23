@@ -86,13 +86,13 @@ i=0
 		sed -i '/^$/d' AvrgDownSize$i-.csv
 
 ## Upload Bandwidth Calculation 
-		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1 * $2)}'> BandwdthUp$i-.csv
+		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1 * $2 * 8)}'> BandwdthUp$i-.csv
 
 		paste -d ',' AvrgUpPacket$i-.csv AvrgUpSize$i-.csv TotalClientUpPacket$i-.csv BandwdthUp$i-.csv>CaptureUp$i-Data.csv
 
 
 ## Download Bandwidth Calculation 
-		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $2)}'> BandwdthDown$i-.csv
+		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $2 * 8)}'> BandwdthDown$i-.csv
 
 
 		echo ${ip[i]} > ip$i-.csv
