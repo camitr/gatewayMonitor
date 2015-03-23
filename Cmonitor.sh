@@ -4,7 +4,7 @@
 cd Tests
 ## Server IP
 
-server=10.129.200.200
+server=10.129.200.15
 
 ## To enter IP in file which is readed by tshark to conduct the monitoring
 
@@ -86,13 +86,13 @@ i=0
 		sed -i '/^$/d' AvrgDownSize$i-.csv
 
 ## Upload Bandwidth Calculation 
-		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1 * $1)}'> BandwdthUp$i-.csv
+		paste AvrgUpPacket$i-.csv AvrgUpSize$i-.csv| awk '{print ($1 * $2)}'> BandwdthUp$i-.csv
 
 		paste -d ',' AvrgUpPacket$i-.csv AvrgUpSize$i-.csv TotalClientUpPacket$i-.csv BandwdthUp$i-.csv>CaptureUp$i-Data.csv
 
 
 ## Download Bandwidth Calculation 
-		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $1)}'> BandwdthDown$i-.csv
+		paste AvrgDownPacket$i-.csv AvrgDownSize$i-.csv| awk '{print ($1 * $2)}'> BandwdthDown$i-.csv
 
 
 		echo ${ip[i]} > ip$i-.csv
@@ -114,7 +114,7 @@ while IFS=, read -ra arr;do
 		
 	done
  
-rm -rf Avrg* Total* 
+#rm -rf Avrg* Total* 
 cd ..
 
 >1.txt
